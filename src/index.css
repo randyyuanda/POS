@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f6fa;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Mobile: hide horizontal scrollbar for category chips */
+.category-strip::-webkit-scrollbar {
+  display: none;
+}
+
+/* Prevent tap highlight on interactive elements */
+button, [role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Ensure tables scroll horizontally on mobile */
+.ant-table-wrapper {
+  overflow-x: auto;
+}
+
+/* Mobile: make statistic values smaller on very small screens */
+@media (max-width: 480px) {
+  .ant-statistic-content-value {
+    font-size: 20px !important;
+  }
+  .ant-card-body {
+    padding: 12px !important;
+  }
+}
