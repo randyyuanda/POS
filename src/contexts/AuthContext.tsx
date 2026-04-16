@@ -27,14 +27,14 @@ const DEFAULT_USERS: StoredUser[] = [
   {
     id: '1',
     name: 'Super Admin',
-    email: 'superadmin@admin',
+    email: 'superadmin@admin.com',
     password: 'superadmin123',
     role: 'superadmin',
   },
   {
     id: '2',
     name: 'Admin',
-    email: 'admin@admin',
+    email: 'admin@admin.com',
     password: 'admin123',
     role: 'admin',
   },
@@ -53,7 +53,22 @@ function saveUsers(users: StoredUser[]) {
 }
 
 function initUsers() {
-  const stored = getStoredUsers();
+  // Migrate old email format (without .com) to new format
+  const EMAIL_MIGRATIONS: Record<string, string> = {
+    'superadmin@admin': 'superadmin@admin.com',
+    'admin@admin': 'admin@admin.com',
+  };
+  let stored = getStoredUsers();
+  let migrated = false;
+  stored = stored.map((u) => {
+    if (EMAIL_MIGRATIONS[u.email]) {
+      migrated = true;
+      return { ...u, email: EMAIL_MIGRATIONS[u.email] };
+    }
+    return u;
+  });
+  if (migrated) saveUsers(stored);
+
   const existingEmails = stored.map((u) => u.email);
   const toAdd = DEFAULT_USERS.filter((u) => !existingEmails.includes(u.email));
   if (toAdd.length > 0) {
